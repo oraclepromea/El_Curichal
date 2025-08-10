@@ -341,59 +341,58 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`Page visits: ${visits}`);
 });
 
-// Language Translation System
+// Language Translation System - Enhanced Version
 const translations = {
     en: {
         // Navigation
-        "Home": "Home",
-        "Rooms": "Rooms", 
-        "Amenities": "Amenities",
+        "Inicio": "Home",
+        "Habitaciones": "Rooms", 
+        "Servicios": "Amenities",
         "Tours": "Tours",
-        "Location": "Location",
-        "Contact": "Contact",
+        "Ubicación": "Location",
+        "Contacto": "Contact",
         
         // Hero Section
-        "Welcome to El Curichal Hostel": "Welcome to El Curichal Hostel",
-        "Your gateway to the Amazon rainforest and pampas adventures in Rurrenabaque, Bolivia": "Your gateway to the Amazon rainforest and pampas adventures in Rurrenabaque, Bolivia",
-        "Book Now": "Book Now",
-        "Explore Tours": "Explore Tours",
+        "Bienvenidos a El Curichal Hostel": "Welcome to El Curichal Hostel",
+        "Tu puerta de entrada a las aventuras de la selva amazónica y los pampas en Rurrenabaque, Bolivia": "Your gateway to the Amazon rainforest and pampas adventures in Rurrenabaque, Bolivia",
+        "Reservar Ahora": "Book Now",
+        "Explorar Tours": "Explore Tours",
         
         // About Section
-        "About El Curichal Hostel": "About El Curichal Hostel",
-        "Excellent Rating": "Excellent Rating",
-        "Reviews": "Reviews",
-        "Reception": "Reception",
+        "Acerca de El Curichal Hostel": "About El Curichal Hostel",
+        "Calificación Excelente": "Excellent Rating",
+        "Reseñas": "Reviews",
+        "Recepción": "Reception",
         
         // Rooms Section
-        "Our Rooms": "Our Rooms",
-        "Choose from 9 different room types to suit your travel style and budget": "Choose from 9 different room types to suit your travel style and budget",
-        "per night": "per night",
-        "Book via WhatsApp": "Book via WhatsApp",
+        "Nuestras Habitaciones": "Our Rooms",
+        "Elige entre 9 tipos diferentes de habitaciones para adaptarse a tu estilo de viaje y presupuesto": "Choose from 9 different room types to suit your travel style and budget",
+        "por noche": "per night",
+        "Reservar por WhatsApp": "Book via WhatsApp",
         
         // Amenities Section
-        "Amenities & Facilities": "Amenities & Facilities",
-        "Everything you need for a comfortable stay in Rurrenabaque": "Everything you need for a comfortable stay in Rurrenabaque",
-        "Additional Services": "Additional Services",
-        "Languages Spoken": "Languages Spoken",
-        "Safety": "Safety",
-        "Convenience": "Convenience",
+        "Comodidades y Servicios": "Amenities & Facilities",
+        "Todo lo que necesitas para una estancia cómoda en Rurrenabaque": "Everything you need for a comfortable stay in Rurrenabaque",
+        "Servicios Adicionales": "Additional Services",
+        "Idiomas que Hablamos": "Languages Spoken",
+        "Seguridad": "Safety",
+        "Conveniencia": "Convenience",
         
         // Tours Section
-        "Adventures Await": "Adventures Await",
-        "Discover the wonders of the Amazon rainforest and Bolivian pampas": "Discover the wonders of the Amazon rainforest and Bolivian pampas",
+        "Aventuras Te Esperan": "Adventures Await",
+        "Descubre las maravillas de la selva amazónica y los pampas bolivianos": "Discover the wonders of the Amazon rainforest and Bolivian pampas",
         
         // Location Section
-        "Prime Location": "Prime Location",
-        "Rurrenabaque, Bolivia": "Rurrenabaque, Bolivia",
+        "Ubicación Privilegiada": "Prime Location",
         
         // Contact Section
-        "Contact Us": "Contact Us",
-        "Get in Touch": "Get in Touch",
-        "Address": "Address",
-        "Phone": "Phone",
-        "Reception Hours": "Reception Hours",
-        "24/7 Available": "24/7 Available",
-        "Follow Us": "Follow Us"
+        "Contáctanos": "Contact Us",
+        "Ponte en Contacto": "Get in Touch",
+        "Dirección": "Address",
+        "Teléfono": "Phone",
+        "Horarios de Recepción": "Reception Hours",
+        "Disponible 24/7": "24/7 Available",
+        "Síguenos": "Follow Us"
     },
     es: {
         // Navigation
@@ -449,24 +448,31 @@ const translations = {
     }
 };
 
-// Language Toggle Functionality
+// Enhanced Language Toggle Functionality
+let currentLanguage = 'en';
+
 document.addEventListener('DOMContentLoaded', () => {
     const langButtons = document.querySelectorAll('.lang-btn');
-    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+    currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
     
     // Set initial language
-    setLanguage(currentLang);
+    setLanguage(currentLanguage);
     
     langButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const selectedLang = btn.getAttribute('data-lang');
-            setLanguage(selectedLang);
-            localStorage.setItem('selectedLanguage', selectedLang);
+            if (selectedLang !== currentLanguage) {
+                setLanguage(selectedLang);
+                localStorage.setItem('selectedLanguage', selectedLang);
+                currentLanguage = selectedLang;
+            }
         });
     });
 });
 
 function setLanguage(lang) {
+    console.log(`Switching to language: ${lang}`);
+    
     // Update active button
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -478,23 +484,40 @@ function setLanguage(lang) {
     // Update HTML lang attribute
     document.documentElement.lang = lang;
     
-    // Translate all elements with data attributes
+    // First, translate all elements with data attributes (navigation items)
     document.querySelectorAll('[data-en]').forEach(element => {
-        const key = element.getAttribute('data-en');
-        if (translations[lang] && translations[lang][key]) {
-            element.textContent = translations[lang][key];
+        const englishText = element.getAttribute('data-en');
+        const spanishText = element.getAttribute('data-es');
+        
+        if (lang === 'es' && spanishText) {
+            element.textContent = spanishText;
+        } else if (lang === 'en' && englishText) {
+            element.textContent = englishText;
         }
     });
     
-    // Translate elements by text content matching
-    const elementsToTranslate = document.querySelectorAll('h1, h2, h3, h4, p, span, a, button');
+    // Then translate all other text elements
+    const elementsToTranslate = document.querySelectorAll('h1, h2, h3, h4, p, span, a:not([data-en]), button:not(.lang-btn)');
     
     elementsToTranslate.forEach(element => {
-        // Skip if element has children (to avoid translating parent when child should be translated)
-        if (element.children.length > 0) return;
+        // Skip if element has children with text (to avoid translating parent when child should be translated)
+        if (element.children.length > 0) {
+            // Check if all children are just icons/images
+            const hasTextChildren = Array.from(element.children).some(child => 
+                child.textContent.trim().length > 0 && !child.classList.contains('flag')
+            );
+            if (hasTextChildren) return;
+        }
+        
+        // Skip elements that are part of WhatsApp links or contain only symbols
+        if (element.closest('.whatsapp-book, .social-links') || 
+            element.textContent.trim().match(/^[+\d\s\-()\.]+$/) ||
+            element.textContent.trim().match(/^[\d.,\s°²³ft²m²]+$/)) {
+            return;
+        }
         
         const text = element.textContent.trim();
-        if (translations[lang] && translations[lang][text]) {
+        if (text && translations[lang] && translations[lang][text]) {
             element.textContent = translations[lang][text];
         }
     });
@@ -505,4 +528,6 @@ function setLanguage(lang) {
     } else {
         document.title = 'El Curichal Hostel - Rurrenabaque, Bolivia';
     }
+    
+    console.log(`Language switched to: ${lang}`);
 }
