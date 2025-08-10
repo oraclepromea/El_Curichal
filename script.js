@@ -371,7 +371,7 @@ function showBookingModal(roomType) {
 // Add WhatsApp floating button
 document.addEventListener('DOMContentLoaded', () => {
     const whatsappButton = document.createElement('a');
-    whatsappButton.href = 'https://wa.me/591389XXXXX'; // Replace with actual WhatsApp number
+    whatsappButton.href = 'https://wa.me/59168988729'; // Updated with actual WhatsApp number
     whatsappButton.target = '_blank';
     whatsappButton.className = 'whatsapp-float';
     whatsappButton.innerHTML = '<i class="fab fa-whatsapp"></i>';
