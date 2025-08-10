@@ -340,3 +340,169 @@ document.addEventListener('DOMContentLoaded', () => {
     // You could display this somewhere if needed
     console.log(`Page visits: ${visits}`);
 });
+
+// Language Translation System
+const translations = {
+    en: {
+        // Navigation
+        "Home": "Home",
+        "Rooms": "Rooms", 
+        "Amenities": "Amenities",
+        "Tours": "Tours",
+        "Location": "Location",
+        "Contact": "Contact",
+        
+        // Hero Section
+        "Welcome to El Curichal Hostel": "Welcome to El Curichal Hostel",
+        "Your gateway to the Amazon rainforest and pampas adventures in Rurrenabaque, Bolivia": "Your gateway to the Amazon rainforest and pampas adventures in Rurrenabaque, Bolivia",
+        "Book Now": "Book Now",
+        "Explore Tours": "Explore Tours",
+        
+        // About Section
+        "About El Curichal Hostel": "About El Curichal Hostel",
+        "Excellent Rating": "Excellent Rating",
+        "Reviews": "Reviews",
+        "Reception": "Reception",
+        
+        // Rooms Section
+        "Our Rooms": "Our Rooms",
+        "Choose from 9 different room types to suit your travel style and budget": "Choose from 9 different room types to suit your travel style and budget",
+        "per night": "per night",
+        "Book via WhatsApp": "Book via WhatsApp",
+        
+        // Amenities Section
+        "Amenities & Facilities": "Amenities & Facilities",
+        "Everything you need for a comfortable stay in Rurrenabaque": "Everything you need for a comfortable stay in Rurrenabaque",
+        "Additional Services": "Additional Services",
+        "Languages Spoken": "Languages Spoken",
+        "Safety": "Safety",
+        "Convenience": "Convenience",
+        
+        // Tours Section
+        "Adventures Await": "Adventures Await",
+        "Discover the wonders of the Amazon rainforest and Bolivian pampas": "Discover the wonders of the Amazon rainforest and Bolivian pampas",
+        
+        // Location Section
+        "Prime Location": "Prime Location",
+        "Rurrenabaque, Bolivia": "Rurrenabaque, Bolivia",
+        
+        // Contact Section
+        "Contact Us": "Contact Us",
+        "Get in Touch": "Get in Touch",
+        "Address": "Address",
+        "Phone": "Phone",
+        "Reception Hours": "Reception Hours",
+        "24/7 Available": "24/7 Available",
+        "Follow Us": "Follow Us"
+    },
+    es: {
+        // Navigation
+        "Home": "Inicio",
+        "Rooms": "Habitaciones",
+        "Amenities": "Servicios", 
+        "Tours": "Tours",
+        "Location": "Ubicación",
+        "Contact": "Contacto",
+        
+        // Hero Section
+        "Welcome to El Curichal Hostel": "Bienvenidos a El Curichal Hostel",
+        "Your gateway to the Amazon rainforest and pampas adventures in Rurrenabaque, Bolivia": "Tu puerta de entrada a las aventuras de la selva amazónica y los pampas en Rurrenabaque, Bolivia",
+        "Book Now": "Reservar Ahora",
+        "Explore Tours": "Explorar Tours",
+        
+        // About Section
+        "About El Curichal Hostel": "Acerca de El Curichal Hostel",
+        "Excellent Rating": "Calificación Excelente",
+        "Reviews": "Reseñas",
+        "Reception": "Recepción",
+        
+        // Rooms Section
+        "Our Rooms": "Nuestras Habitaciones",
+        "Choose from 9 different room types to suit your travel style and budget": "Elige entre 9 tipos diferentes de habitaciones para adaptarse a tu estilo de viaje y presupuesto",
+        "per night": "por noche",
+        "Book via WhatsApp": "Reservar por WhatsApp",
+        
+        // Amenities Section
+        "Amenities & Facilities": "Comodidades y Servicios",
+        "Everything you need for a comfortable stay in Rurrenabaque": "Todo lo que necesitas para una estancia cómoda en Rurrenabaque",
+        "Additional Services": "Servicios Adicionales",
+        "Languages Spoken": "Idiomas que Hablamos",
+        "Safety": "Seguridad",
+        "Convenience": "Conveniencia",
+        
+        // Tours Section
+        "Adventures Await": "Aventuras Te Esperan",
+        "Discover the wonders of the Amazon rainforest and Bolivian pampas": "Descubre las maravillas de la selva amazónica y los pampas bolivianos",
+        
+        // Location Section
+        "Prime Location": "Ubicación Privilegiada", 
+        "Rurrenabaque, Bolivia": "Rurrenabaque, Bolivia",
+        
+        // Contact Section
+        "Contact Us": "Contáctanos",
+        "Get in Touch": "Ponte en Contacto",
+        "Address": "Dirección",
+        "Phone": "Teléfono", 
+        "Reception Hours": "Horarios de Recepción",
+        "24/7 Available": "Disponible 24/7",
+        "Follow Us": "Síguenos"
+    }
+};
+
+// Language Toggle Functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+    
+    // Set initial language
+    setLanguage(currentLang);
+    
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selectedLang = btn.getAttribute('data-lang');
+            setLanguage(selectedLang);
+            localStorage.setItem('selectedLanguage', selectedLang);
+        });
+    });
+});
+
+function setLanguage(lang) {
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Update HTML lang attribute
+    document.documentElement.lang = lang;
+    
+    // Translate all elements with data attributes
+    document.querySelectorAll('[data-en]').forEach(element => {
+        const key = element.getAttribute('data-en');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+    
+    // Translate elements by text content matching
+    const elementsToTranslate = document.querySelectorAll('h1, h2, h3, h4, p, span, a, button');
+    
+    elementsToTranslate.forEach(element => {
+        // Skip if element has children (to avoid translating parent when child should be translated)
+        if (element.children.length > 0) return;
+        
+        const text = element.textContent.trim();
+        if (translations[lang] && translations[lang][text]) {
+            element.textContent = translations[lang][text];
+        }
+    });
+    
+    // Update document title
+    if (lang === 'es') {
+        document.title = 'El Curichal Hostel - Rurrenabaque, Bolivia';
+    } else {
+        document.title = 'El Curichal Hostel - Rurrenabaque, Bolivia';
+    }
+}
