@@ -340,6 +340,29 @@ body {
     color: #666;
 }
 
+/* Room size styling */
+.room-size {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+/* Room note styling */
+.room-note {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.room-note p {
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+}
+
 /* Amenities Section */
 .amenities {
     padding: 100px 0;
@@ -380,6 +403,28 @@ body {
 
 .amenity p {
     color: #666;
+    line-height: 1.6;
+}
+
+/* Amenity note styling */
+.amenity-note {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 3rem;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.amenity-note h3 {
+    color: #2c5530;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.amenity-note p {
+    color: #666;
+    margin: 0;
     line-height: 1.6;
 }
 
