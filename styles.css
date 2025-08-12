@@ -808,6 +808,16 @@ body {
     margin: 0;
 }
 
+.footer-bottom a {
+    color: #ff6b35;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: #e55a2e;
+}
+
 /* Language Toggle Styling */
 .language-toggle {
     display: flex;
